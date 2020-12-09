@@ -1,6 +1,6 @@
 # Brainly Answer Scraper by @Hageru-Ray
 
-import requests
+from requests import get
 from bs4 import BeautifulSoup
 from googlesearch import search
 
@@ -12,11 +12,11 @@ def brainly(target):
     for results in search(target, tld="com", num=10, stop=10, pause=2):
         if results.find('brainly') != -1:
             limiter += 1
-            page = requests.get(results)
+            page = get(results)
             soup = BeautifulSoup(page.content, 'html.parser')
             data = soup.find('div', attrs={'class': 'brn-qpage-next-answer-box-content__section'})
             data = data.text.strip()
-            print(data)
+            print(f'{results} \n{data}')
             if limiter == RESULTS:
                 break
         else:
@@ -24,4 +24,4 @@ def brainly(target):
 
 # Hageru-Ray
 
-brainly('Who found the American Continent')
+brainly(input('Type what you wanna search: '))
